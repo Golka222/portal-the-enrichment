@@ -1,0 +1,4 @@
+node_modules/
+.railway/
+*.log
+.DS_Store

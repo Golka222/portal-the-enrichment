@@ -1,0 +1,14 @@
+{
+  "name": "portal-enrichment-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portal: Enrichment — temporary holding page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
