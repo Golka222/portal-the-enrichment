@@ -80,4 +80,24 @@
   } else {
     init();
   }
+
+  // Force fresh content on every visit: the worker prefers the network and is
+  // versioned by build hash, so it never serves a stale copy from cache.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function () {
+        return navigator.serviceWorker.ready;
+      }).then(function () {
+        return new Promise(function (resolve) {
+          var reg = navigator.serviceWorker;
+          reg.getRegistration().then(function (r) {
+            if (r) r.update();
+            resolve();
+          });
+        });
+      }).catch(function () {
+        /* insecure origin or unsupported - page still works */
+      });
+    });
+  }
 })();
