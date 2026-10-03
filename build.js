@@ -10,6 +10,10 @@ const OUT = path.join(ROOT, 'dist');
 
 const IMAGES = ['emblem.avif', 'favicon.png', 'apple-touch-icon.png'];
 
+// Custom domain. Written out as CNAME on every build so the Pages binding
+// survives rebuilds. Single source of truth: no duplicated file to drift.
+const DOMAIN = 'portalenrichment.space';
+
 // Absolute -> relative, then a content hash query so a change always yields
 // new URLs. Without this, browsers keep serving the old file from cache.
 const REWRITES = [
@@ -46,6 +50,9 @@ function build() {
     fs.copyFileSync(path.join(SRC, 'img', img), path.join(OUT, 'img', img));
   }
   fs.writeFileSync(path.join(OUT, '.nojekyll'), '', 'utf8');
+
+  // Keep the custom domain pinned across rebuilds.
+  fs.writeFileSync(path.join(OUT, 'CNAME'), DOMAIN, 'utf8');
 
   // Stamp the cache-buster into the worker so a new build drops old caches.
   const sw = fs
