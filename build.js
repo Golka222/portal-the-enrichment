@@ -24,10 +24,20 @@ function build() {
   fs.writeFileSync(path.join(OUT, 'index.html'), out, 'utf8');
   fs.copyFileSync(path.join(SRC, 'styles.css'), path.join(OUT, 'styles.css'));
   fs.copyFileSync(path.join(SRC, 'main.js'), path.join(OUT, 'main.js'));
-  fs.copyFileSync(path.join(SRC, 'img', 'emblem.avif'), path.join(OUT, 'img', 'emblem.avif'));
+  for (const img of ['emblem.avif', 'favicon.png', 'apple-touch-icon.png']) {
+    fs.copyFileSync(path.join(SRC, 'img', img), path.join(OUT, 'img', img));
+  }
   fs.writeFileSync(path.join(OUT, '.nojekyll'), '', 'utf8');
 
-  const files = ['index.html', 'styles.css', 'main.js', 'img/emblem.avif', '.nojekyll'];
+  const files = [
+    'index.html',
+    'styles.css',
+    'main.js',
+    'img/emblem.avif',
+    'img/favicon.png',
+    'img/apple-touch-icon.png',
+    '.nojekyll',
+  ];
   console.log('built dist/ (relative paths, UTF-8):');
   for (const f of files) {
     console.log(`  ${f.padEnd(18)} ${fs.statSync(path.join(OUT, f)).size} bytes`);

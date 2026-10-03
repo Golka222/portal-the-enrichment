@@ -6,12 +6,10 @@
 
   var META = {
     ru: {
-      title: 'Portal: The Enrichment — Официальный Сайт',
       description:
         'Официальная веб страница Portal: The Enrichment, в данный момент недоступна, следите за разработкой.',
     },
     en: {
-      title: 'Portal: The Enrichment — Official Website',
       description:
         'The official website of Portal: The Enrichment is currently unavailable, follow the development.',
     },
@@ -48,11 +46,11 @@
 
     var meta = META[lang];
     if (meta) {
-      document.title = meta.title;
-      var desc = document.querySelector('meta[name="description"]');
-      if (desc) desc.setAttribute('content', meta.description);
+      var desc = meta.description;
+      var descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.setAttribute('content', desc);
       var og = document.querySelector('meta[property="og:description"]');
-      if (og) og.setAttribute('content', meta.description);
+      if (og) og.setAttribute('content', desc);
     }
 
     var status = document.querySelector('[data-status]');
