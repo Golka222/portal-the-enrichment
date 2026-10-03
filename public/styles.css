@@ -206,7 +206,7 @@ nav {
 .hero__logo {
   display: block;
   filter: drop-shadow(0 0.2rem 0.3rem rgba(5, 5, 5, 0.75));
-  max-width: clamp(14rem, 26vw, 24rem);
+  max-width: clamp(14rem, 25vw, 23rem);
   width: 100%;
 }
 
