@@ -62,10 +62,44 @@
     if (label) label.textContent = lang === 'ru' ? 'EN' : 'RU';
   }
 
+  function protectArtwork() {
+    var logo = document.querySelector('.hero__logo');
+    if (!logo) return;
+
+    logo.setAttribute('draggable', 'false');
+
+    ['dragstart', 'drag', 'dragend'].forEach(function (type) {
+      logo.addEventListener(type, function (e) {
+        e.preventDefault();
+      });
+    });
+
+    logo.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+
+    logo.addEventListener('selectstart', function (e) {
+      e.preventDefault();
+    });
+
+    // Last resort for older engines that ignore -webkit-user-drag.
+    document.addEventListener(
+      'dragstart',
+      function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains('hero__logo')) {
+          e.preventDefault();
+        }
+      },
+      true
+    );
+  }
+
   function init() {
     var toggle = document.getElementById('lang-toggle');
     var current = detect();
     apply(current);
+
+    protectArtwork();
 
     if (!toggle) return;
     toggle.addEventListener('click', function () {

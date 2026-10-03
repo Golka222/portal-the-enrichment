@@ -1,8 +1,8 @@
 'use strict';
 
-var CACHE = 'portal-enrichment-ve1e18c7949';
+var CACHE = 'portal-enrichment-vc841681eb5';
 
-var SHELL = ['./', './index.html', './styles.css?v=e1e18c7949', './main.js?v=e1e18c7949'];
+var SHELL = ['./', './index.html', './styles.css?v=c841681eb5', './main.js?v=c841681eb5'];
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
