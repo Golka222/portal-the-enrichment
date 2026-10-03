@@ -36,8 +36,14 @@ self.addEventListener('fetch', function (event) {
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
+  // Network-first with an explicit cache bypass.
+  // A plain fetch() here still consults the browser HTTP cache, and GitHub
+  // Pages answers with Cache-Control: max-age=600, which is exactly why
+  // visitors kept seeing the previous version. cache:'no-store' forces the
+  // request to the server; the Cache Storage below is only an offline safety
+  // net, never the primary source.
   event.respondWith(
-    fetch(req)
+    fetch(req, { cache: 'no-store', redirect: 'follow' })
       .then(function (res) {
         if (res && res.ok && res.type === 'basic') {
           var copy = res.clone();
