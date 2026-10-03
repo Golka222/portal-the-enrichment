@@ -16,6 +16,7 @@ const REWRITES = [
   [/href="\/styles\.css"/g, 'href="styles.css?v=__HASH__"'],
   [/src="\/main\.js"/g, 'src="main.js?v=__HASH__"'],
   [/(src|href)="\/(img\/[A-Za-z0-9._-]+)"/g, '$1="$2?v=__HASH__"'],
+  [/(<meta name="build-id" content=")__HASH__(")/g, '$1__HASH__$2'],
 ];
 
 function contentHash() {

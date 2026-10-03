@@ -1,8 +1,8 @@
 'use strict';
 
-var CACHE = 'portal-enrichment-v735896cec1';
+var CACHE = 'portal-enrichment-v4546bd1ec8';
 
-var SHELL = ['./', './index.html', './styles.css?v=735896cec1', './main.js?v=735896cec1'];
+var SHELL = ['./', './index.html', './styles.css?v=4546bd1ec8', './main.js?v=4546bd1ec8'];
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
@@ -13,17 +13,31 @@ self.addEventListener('install', function (event) {
   );
 });
 
+// Full wipe. Every cache this origin owns is dropped, not just our own, so a
+// build can never inherit leftovers from an older revision. Clients are then
+// told to pull a brand new document.
 self.addEventListener('activate', function (event) {
   event.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(
-        keys.map(function (k) {
-          return k === CACHE ? null : caches.delete(k);
-        })
-      );
-    }).then(function () {
-      return self.clients.claim();
-    })
+    caches
+      .keys()
+      .then(function (keys) {
+        return Promise.all(
+          keys.map(function (k) {
+            return caches.delete(k);
+          })
+        );
+      })
+      .then(function () {
+        return self.clients.claim();
+      })
+      .then(function () {
+        return self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      })
+      .then(function (list) {
+        list.forEach(function (client) {
+          client.postMessage({ type: 'CACHE_PURGED', build: '4546bd1ec8' });
+        });
+      })
   );
 });
 

@@ -13,17 +13,31 @@ self.addEventListener('install', function (event) {
   );
 });
 
+// Full wipe. Every cache this origin owns is dropped, not just our own, so a
+// build can never inherit leftovers from an older revision. Clients are then
+// told to pull a brand new document.
 self.addEventListener('activate', function (event) {
   event.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(
-        keys.map(function (k) {
-          return k === CACHE ? null : caches.delete(k);
-        })
-      );
-    }).then(function () {
-      return self.clients.claim();
-    })
+    caches
+      .keys()
+      .then(function (keys) {
+        return Promise.all(
+          keys.map(function (k) {
+            return caches.delete(k);
+          })
+        );
+      })
+      .then(function () {
+        return self.clients.claim();
+      })
+      .then(function () {
+        return self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      })
+      .then(function (list) {
+        list.forEach(function (client) {
+          client.postMessage({ type: 'CACHE_PURGED', build: '__HASH__' });
+        });
+      })
   );
 });
 
