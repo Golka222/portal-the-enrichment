@@ -1,8 +1,8 @@
 'use strict';
 
-var CACHE = 'portal-enrichment-vb4c43b8757';
+var CACHE = 'portal-enrichment-v4546bd1ec8';
 
-var SHELL = ['./', './index.html', './styles.css?v=b4c43b8757', './main.js?v=b4c43b8757'];
+var SHELL = ['./', './index.html', './styles.css?v=4546bd1ec8', './main.js?v=4546bd1ec8'];
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
@@ -35,7 +35,7 @@ self.addEventListener('activate', function (event) {
       })
       .then(function (list) {
         list.forEach(function (client) {
-          client.postMessage({ type: 'CACHE_PURGED', build: 'b4c43b8757' });
+          client.postMessage({ type: 'CACHE_PURGED', build: '4546bd1ec8' });
         });
       })
   );
